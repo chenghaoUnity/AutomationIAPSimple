@@ -30,7 +30,7 @@ public class IAPAutomation : MonoBehaviour {
 	}
 
 	public void Start() {
-		testRun ();
+		// testRun ();
 	}
 
 	public void testRun() {
@@ -42,6 +42,7 @@ public class IAPAutomation : MonoBehaviour {
 		testSuite.Add (test04 ());
 		testSuite.Add (test05 ());
 		testSuite.Add (test06 ());
+		testSuite.Add (test07 ());
 		testSuite.Add (finalization ());
 
 		maxTest = testSuite.Count;
@@ -65,7 +66,7 @@ public class IAPAutomation : MonoBehaviour {
 		resultTable.Add(new TestCase(
 			"C2777-1",
 			compareInfo ("ConsumablePass"), 
-			"Consumable Successfully",
+			"Consumable Successfully Event",
 			System.DateTime.Now,
 			stack.Peek()));
 
@@ -89,7 +90,7 @@ public class IAPAutomation : MonoBehaviour {
 		resultTable.Add(new TestCase(
 			"C2777-2",
 			compareInfo ("ConsumableFail"), 
-			"Consumable Fail",
+			"Consumable Fail Event",
 			System.DateTime.Now,
 			stack.Peek()));
 
@@ -113,7 +114,7 @@ public class IAPAutomation : MonoBehaviour {
 		resultTable.Add(new TestCase(
 			"C2778-1",
 			compareInfo ("NonConsumablePass"), 
-			"Non-Consumable Successfully",
+			"Non-Consumable Successfully Event",
 			System.DateTime.Now,
 			stack.Peek()));
 
@@ -137,7 +138,7 @@ public class IAPAutomation : MonoBehaviour {
 		resultTable.Add(new TestCase(
 			"C2778-2",
 			compareInfo ("NonConsumableFail"), 
-			"Non-Consumable Fail",
+			"Non-Consumable Fail Event",
 			System.DateTime.Now,
 			stack.Peek()));
 
@@ -162,7 +163,7 @@ public class IAPAutomation : MonoBehaviour {
 		resultTable.Add(new TestCase(
 			"C2779-1",
 			compareInfo ("SubscriptionPass"), 
-			"Subscription Successfully",
+			"Subscription Successfully Event",
 			System.DateTime.Now,
 			stack.Peek()));
 
@@ -186,7 +187,7 @@ public class IAPAutomation : MonoBehaviour {
 		resultTable.Add(new TestCase(
 			"C2779-2",
 			compareInfo ("SubscriptionFail"), 
-			"Subscription Fail",
+			"Subscription Fail Event",
 			System.DateTime.Now,
 			stack.Peek()));
 
@@ -195,6 +196,30 @@ public class IAPAutomation : MonoBehaviour {
 		} 
 	}
 
+	//Restore
+	public IEnumerator test07() {
+		runOrder++;
+		showProgess (runOrder);
+
+#if UNITY_IOS && !UNITY_EDITOR
+
+		yield return new WaitForSeconds(0.3f);
+		click ("Restore");
+
+		yield return new WaitForSeconds (0.1f);
+		resultTable.Add(new TestCase(
+			"C2803",
+			compareInfo ("NonConsumablePass"), 
+			"Restore Event",
+			System.DateTime.Now,
+			stack.Peek()));
+
+#endif
+
+		if (runOrder < maxTest) {
+			yield return StartCoroutine (testSuite [runOrder]);
+		} 
+	}
 
 	public IEnumerator finalization() {
 		showReport ();

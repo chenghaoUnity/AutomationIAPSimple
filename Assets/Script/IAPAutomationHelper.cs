@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class IAPAutomationHelper : MonoBehaviour {
 
 	public void PushPassScreen(GameObject g) {
-		GameObject.Find ("Log").GetComponent<Text> ().text = g.name + "Pass";
+		PushScreen(g.name + "Pass");
 		GameObject.FindObjectOfType<IAPAutomation> ().stack.Push (g.name + "Pass");
 
 		foreach (string s in GameObject.FindObjectOfType<IAPAutomation> ().stack) {
@@ -15,11 +15,11 @@ public class IAPAutomationHelper : MonoBehaviour {
 	}
 
 	public void PushFailScreen(GameObject g) {
-		GameObject.Find ("Log").GetComponent<Text> ().text = g.name + "Fail";
+		PushScreen(g.name + "Fail");
 		GameObject.FindObjectOfType<IAPAutomation> ().stack.Push (g.name + "Fail");
 	}
 
 	public void PushScreen(string content) {
-		GameObject.Find ("Log").GetComponent<Text> ().text = content;
+		GameObject.Find ("Log").GetComponent<Text> ().text += " " + content;
 	}
 }
