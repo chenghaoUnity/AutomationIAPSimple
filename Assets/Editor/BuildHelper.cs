@@ -9,22 +9,18 @@ public static class BuildHelper {
 
 	public static void SwitchPlatformsGooglePlay(UnityEngine.CloudBuild.BuildManifestObject manifest) {
 		UnityEngine.Purchasing.UnityPurchasingEditor.TargetAndroidStore(UnityEngine.Purchasing.AndroidStore.GooglePlay);
-		Helper ();
 	}
 
 	public static void SwitchPlatformsCloudMoolah(UnityEngine.CloudBuild.BuildManifestObject manifest) {
 		UnityEngine.Purchasing.UnityPurchasingEditor.TargetAndroidStore(UnityEngine.Purchasing.AndroidStore.CloudMoolah);
-		Helper ();
 	}
 
 	public static void SwitchPlatformsAmazonAppStore(UnityEngine.CloudBuild.BuildManifestObject manifest) {
 		UnityEngine.Purchasing.UnityPurchasingEditor.TargetAndroidStore(UnityEngine.Purchasing.AndroidStore.AmazonAppStore);
-		Helper ();
 	}
 
 	public static void SwitchPlatformsSamsungApps(UnityEngine.CloudBuild.BuildManifestObject manifest) {
 		UnityEngine.Purchasing.UnityPurchasingEditor.TargetAndroidStore(UnityEngine.Purchasing.AndroidStore.SamsungApps);
-		Helper ();
 	}
 
 	private static void Helper() {
