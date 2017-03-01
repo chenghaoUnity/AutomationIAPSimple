@@ -163,7 +163,7 @@ namespace UnityEngine.Purchasing
 			private static IAPButtonStoreManager instance = new IAPButtonStoreManager();
 			private ProductCatalog catalog;
 			private List<IAPButton> activeButtons = new List<IAPButton>();
-			
+
 			protected IStoreController controller;
 			protected IExtensionProvider extensions;
 
@@ -172,16 +172,6 @@ namespace UnityEngine.Purchasing
 				catalog = ProductCatalog.LoadDefaultCatalog();
 
 				StandardPurchasingModule module = StandardPurchasingModule.Instance();
-				module.useFakeStoreUIMode = FakeStoreUIMode.StandardUser;
-
-#if UNITY_IOS && !UNITY_EDITOR
-
-				module.useFakeStoreAlways = false;
-
-#else
-				module.useFakeStoreAlways = true;
-#endif
-
 
 				ConfigurationBuilder builder = ConfigurationBuilder.Instance(module);
 				foreach (var product in catalog.allProducts) {

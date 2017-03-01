@@ -21,6 +21,7 @@ public class IAPAutomation : MonoBehaviour {
 	private int maxTest = 0;
 	private int runOrder = 0;
 	private DatabaseReference reference;
+	private bool QAstatus = false;
 
 	string myLog;
 
@@ -30,7 +31,8 @@ public class IAPAutomation : MonoBehaviour {
 	}
 
 	public void Start() {
-		// testRun ();
+		getQAstatus ();
+		this.onCompelete.AddListener (QA);
 	}
 
 	public void testRun() {
@@ -59,8 +61,14 @@ public class IAPAutomation : MonoBehaviour {
 		yield return new WaitForSeconds(0.3f);
 		click ("Consumable");
 
+#if UNITY_IOS && !UNITY_EDITOR
+
+#else
+
 		yield return new WaitForSeconds(0.3f);
 		click ("Button1");
+
+#endif
 
 		yield return new WaitForSeconds (0.1f);
 		resultTable.Add(new TestCase(
@@ -83,8 +91,14 @@ public class IAPAutomation : MonoBehaviour {
 		yield return new WaitForSeconds(0.3f);
 		click ("ConsumableFake");
 
+#if UNITY_IOS && !UNITY_EDITOR
+
+#else
+
 		yield return new WaitForSeconds (0.3f);
 		click ("Button2");
+
+#endif
 
 		yield return new WaitForSeconds (0.1f);
 		resultTable.Add(new TestCase(
@@ -107,8 +121,14 @@ public class IAPAutomation : MonoBehaviour {
 		yield return new WaitForSeconds(0.3f);
 		click ("NonConsumable");
 
+#if UNITY_IOS && !UNITY_EDITOR
+
+#else
+
 		yield return new WaitForSeconds (0.3f);
 		click ("Button1");
+
+#endif
 
 		yield return new WaitForSeconds (0.1f);
 		resultTable.Add(new TestCase(
@@ -131,8 +151,14 @@ public class IAPAutomation : MonoBehaviour {
 		yield return new WaitForSeconds(0.3f);
 		click ("NonConsumableFake");
 
+#if UNITY_IOS && !UNITY_EDITOR
+
+#else
+
 		yield return new WaitForSeconds (0.3f);
 		click ("Button2");
+
+#endif
 
 		yield return new WaitForSeconds (0.1f);
 		resultTable.Add(new TestCase(
@@ -155,9 +181,14 @@ public class IAPAutomation : MonoBehaviour {
 		yield return new WaitForSeconds(0.3f);
 		click ("Subscription");
 
+#if UNITY_IOS && !UNITY_EDITOR
+
+#else
 
 		yield return new WaitForSeconds (0.3f);
 		click ("Button1");
+
+#endif
 
 		yield return new WaitForSeconds (0.1f);
 		resultTable.Add(new TestCase(
@@ -180,8 +211,14 @@ public class IAPAutomation : MonoBehaviour {
 		yield return new WaitForSeconds(0.3f);
 		click ("SubscriptionFake");
 
+#if UNITY_IOS && !UNITY_EDITOR
+
+#else
+
 		yield return new WaitForSeconds (0.3f);
 		click ("Button2");
+
+#endif
 
 		yield return new WaitForSeconds (0.1f);
 		resultTable.Add(new TestCase(
@@ -209,7 +246,7 @@ public class IAPAutomation : MonoBehaviour {
 		yield return new WaitForSeconds (0.1f);
 		resultTable.Add(new TestCase(
 			"C2803",
-			compareInfo ("NonConsumablePass"), 
+			compareInfo ("NonConsumablePass", "SubscriptionPass"),
 			"Restore Event",
 			System.DateTime.Now,
 			stack.Peek()));
@@ -245,7 +282,25 @@ public class IAPAutomation : MonoBehaviour {
 
 	private bool compareInfo(string expected) {
 		// Get text from a text UI
-		return stack.Peek() == expected;
+		return expected == stack.Peek();
+	}
+
+	private bool compareInfo(string expected, string expected2) {
+		// Get text from a text UI
+
+		string real1 = stack.Peek ();
+		stack.Pop ();
+		string real2 = stack.Peek ();
+
+		if (real1 == expected && real2 == expected2) {
+			return true;
+		}
+
+		if (real1 == expected2 && real2 == expected) {
+			return true;
+		}
+
+		return false;
 	}
 
 	private void showProgess(int progress) {
@@ -277,5 +332,34 @@ public class IAPAutomation : MonoBehaviour {
 		childUpdates ["/QAReport/" + System.DateTime.Now.ToString("MMM d, yyyy") + "/" + testCase.getDescitpion()  + "/" + testCase.getDate().ToString("HH:mm:ss tt zz") + "/DeviceInfo/OperatingSystem"] = UnityEngine.SystemInfo.operatingSystem.ToString();;
 
 		reference.UpdateChildrenAsync(childUpdates);
+	}
+
+	private void QA() {
+		if (QAstatus == true) {
+			testRun ();
+		}
+	}
+
+	private void getQAstatus() 
+	{
+		FirebaseDatabase
+			.DefaultInstance
+			.GetReference ("QAstatus")
+			.GetValueAsync().ContinueWith(task => 
+				{
+					if (task.IsCompleted) {
+						DataSnapshot snapshot = task.Result;
+
+						if (snapshot.Value.ToString().Equals("Run"))  {
+							QAstatus = true;
+						} else {
+							QAstatus = false;
+						}
+
+						if (onCompelete != null)  {
+							onCompelete.Invoke();
+						}
+					}
+			});
 	}
 }

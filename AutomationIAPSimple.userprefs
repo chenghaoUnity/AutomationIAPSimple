@@ -1,10 +1,12 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Script/TestCase.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/BuildHelper.cs">
     <Files>
-      <File FileName="Assets/Script/IAPAutomation.cs" Line="259" Column="3" />
+      <File FileName="Assets/Editor/BuildHelper.cs" Line="19" Column="114" />
+      <File FileName="Assets/Script/IAPAutomation.cs" Line="253" Column="3" />
       <File FileName="Assets/Script/IAPAutomationHelper.cs" Line="9" Column="30" />
-      <File FileName="Assets/Script/TestCase.cs" Line="61" Column="38" />
+      <File FileName="Assets/Script/TestCase.cs" Line="28" Column="27" />
+      <File FileName="Assets/Plugins/UnityPurchasing/script/IAPButton.cs" Line="170" Column="33" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
