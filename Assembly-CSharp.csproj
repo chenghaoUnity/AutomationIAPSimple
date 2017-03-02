@@ -46,6 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Script\Experience.cs" />
      <Compile Include="Assets\Script\IAPAutomation.cs" />
      <Compile Include="Assets\Script\IAPAutomationHelper.cs" />
      <Compile Include="Assets\Script\TestCase.cs" />

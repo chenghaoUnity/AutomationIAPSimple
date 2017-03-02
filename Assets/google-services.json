@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "889251213004",
+    "firebase_url": "https://automationiapsimple.firebaseio.com",
+    "project_id": "automationiapsimple",
+    "storage_bucket": "automationiapsimple.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:889251213004:android:aa466757e06e8f3b",
+        "android_client_info": {
+          "package_name": "com.turnalan.automationIAP"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "889251213004-avsrog27ina1hl134gs2hfchuef9p8l7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmkPSmwxDvBHLXQ6ea8Pr_cJOSSu9a1M4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
