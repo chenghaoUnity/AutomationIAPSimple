@@ -46,13 +46,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Editor\BuildHelper.cs" />
      <Compile Include="Assets\Firebase\Editor\AppDeps.cs" />
      <Compile Include="Assets\Firebase\Editor\AuthDeps.cs" />
      <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-auth-unity\maven-metadata.xml" />
      <None Include="Assets\Firebase\Plugins\link.xml" />
      <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver.txt" />
      <None Include="Assets\Plugins\Android\Firebase\AndroidManifest.xml" />
+     <None Include="Assets\Plugins\Android\Firebase\res\values\google-services.xml" />
      <None Include="Assets\Plugins\Android\firebase-common-10.0.1\AndroidManifest.xml" />
      <None Include="Assets\Plugins\Android\firebase-common-10.0.1\proguard.txt" />
      <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-app-unity\maven-metadata.xml" />
