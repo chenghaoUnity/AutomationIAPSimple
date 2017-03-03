@@ -46,6 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Editor\BuildHelper.cs" />
      <Compile Include="Assets\Firebase\Editor\AppDeps.cs" />
      <Compile Include="Assets\Firebase\Editor\AuthDeps.cs" />
      <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-auth-unity\maven-metadata.xml" />

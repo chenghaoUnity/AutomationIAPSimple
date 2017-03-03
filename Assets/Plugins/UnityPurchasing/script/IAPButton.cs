@@ -173,6 +173,8 @@ namespace UnityEngine.Purchasing
 
 				StandardPurchasingModule module = StandardPurchasingModule.Instance();
 
+				module.useFakeStoreUIMode = FakeStoreUIMode.StandardUser;
+
 				ConfigurationBuilder builder = ConfigurationBuilder.Instance(module);
 				foreach (var product in catalog.allProducts) {
 					if (product.allStoreIDs.Count > 0) {
