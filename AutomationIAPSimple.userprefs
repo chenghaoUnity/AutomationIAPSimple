@@ -1,12 +1,10 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/BuildHelper.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/google-services.json">
     <Files>
-      <File FileName="Assets/Editor/BuildHelper.cs" Line="19" Column="114" />
-      <File FileName="Assets/Script/IAPAutomation.cs" Line="253" Column="3" />
-      <File FileName="Assets/Script/IAPAutomationHelper.cs" Line="9" Column="30" />
-      <File FileName="Assets/Script/TestCase.cs" Line="28" Column="27" />
-      <File FileName="Assets/Plugins/UnityPurchasing/script/IAPButton.cs" Line="170" Column="33" />
+      <File FileName="Assets/google-services.json" Line="13" Column="51" />
+      <File FileName="Assets/Script/IAPAutomationHelper.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/IAPAutomation.cs" Line="24" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

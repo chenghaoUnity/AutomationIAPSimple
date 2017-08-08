@@ -1,3 +1,102 @@
+## [1.13.0] - 2017-07-31
+### Added
+- iOS and tvOS - Added experimental support for purchases initiated from the App Store using the new API in iOS 11 and tvOS 11. For more information about this feature, watch the ["What's New in StoreKit" video from WWDC 2017](https://developer.apple.com/videos/play/wwdc2017/303/). If you intend to support this feature in your app, it is important that you initialize Unity Purchasing and be prepared to handle purchases as soon as possible when your app is launched.
+- Apple platforms - The IAP Catalog tool will now export translations when exporting to the Apple Application Loader format.
+- Apple platforms - Add support for controlling promoted items in the App Store through IAppleExtensions. This feature is available on iOS and tvOS 11. Set the order of promoted items in the App Store with IAppleExtensions.SetStorePromotionOrder, or control visiblility with IAppleExtensions.SetStorePromotionVisibility.
+```csharp
+public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
+{
+	// Set the order of the promoted items
+	var appleExtensions = extensions.GetExtension<IAppleExtensions>();
+	appleExtensions.SetStorePromotionOrder(new List<Product>{
+		controller.products.WithID("sword"),
+		controller.products.WithID("subscription")
+	});
+}
+```
+```csharp
+public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
+{
+	// Set the visibility of promoted items
+	var appleExtensions = extensions.GetExtension<IAppleExtensions>();
+	appleExtensions.SetStorePromotionVisibility(controller.products.WithID("subscription"), AppleStorePromotionVisibility.Hide);
+	appleExtensions.SetStorePromotionVisibility(controller.products.WithID("100.gold.coins"), AppleStorePromotionVisibility.Default);
+}
+```
+
+### Changed
+- AndroidStore enum - Obsoleted by superset AppStore enum. Cleans up logging mentioning Android on non-Android platforms.
+- Codeless IAP - IAP Button notifies just one purchase button for purchase failure, logging additional detail.
+
+### Fixed
+- Apple platforms - Catch NullReferenceException thrown during initialization when the app receipt cannot be correctly parsed.
+- IAP Catalog - Fix GUI slowdown when typing details for large number of products on Windows.
+- Fix internal MiniJSON namespace exposure, regression introduced in 1.11.2.
+
+## [1.12.0] - 2017-07-25
+### Added
+- XiaomiMiPay - Add Xiaomi Mi Game Pay app store purchasing for Android devices in China. Add the "Unity Channel" support library and service. Unity Channel helps non-China developers access the Unity-supported Chinese app store market by featuring app store user login and payment management. Use Unity Channel directly for login to Xiaomi. Unity IAP internally uses Unity Channel for Xiaomi payment. [Preliminary documentation](https://docs.google.com/document/d/1VjKatN5ZAn6xZ1KT_PIvgylmAKcXvKvf4jgJqi3OuuY) is available. See also [Xiaomi's portal](https://unity.mi.com/) and [Unity's partner guide](https://unity3d.com/partners/xiaomi/guide).
+
+### Fixed
+- FacebookStore - Fix login and initialization corner-case abnormally calling RetrieveProducts internally
+- Tizen Store - Fix purchasing regression introduced after 1.11.1
+- Mac App Store - Fixes "libmono.0.dylib not found" errors at launch if built via Unity 2017.1. See also Known Issues, below.
+
+### Known Issues
+- Mac App Store - Incompatible with Unity 2017.1.0f3: exception will be thrown during purchasing. Fixed in Unity 2017.1.0p1.
+
+## [1.11.4] - 2017-06-21
+### Fixed
+- Apple platforms - Fix a blocking bug when building from Unity 5.3.
+
+## [1.11.3] - 2017-06-20
+### Fixed
+- Amazon - Purchase attempts for owned non-consumable products are now treated as successful purchases.
+
+## [1.11.2] - 2017-05-30
+### Added
+- Apple platforms - Parse the app receipt when retrieving product information and attempt to set receipt fields on Product. With this change the hasReceipt field on Apple platforms will work more like it does on non-Apple platforms.
+
+### Fixed
+- FacebookStore - Better error handling for cases where store configuration changes after purchases have already been made.
+- General - Better momentary memory performance for local receipt validation and other JSON parsing situations.
+- Editor menus - Targeted Android store menu checkmark are set and valid more often.
+- Installer - Fix error seen during install, `ReflectionTypeLoadException[...]UnityEditor.Purchasing.UnityIAPInstaller.<k_Purchasing>`.
+
+## [1.11.1] - 2017-05-23
+### Fixed
+- GooglePlay - Fix regression seen during purchasing where GooglePlay Activity forces screen orientation to portrait and turns background black. Restores neutral orientation and transparent background behavior.
+
+## [1.11.0] - 2017-05-01
+### Added
+- FacebookStore - Facebook Gameroom Payments Lite support. Available on Unity 5.6+ when building for Facebook Platform on Gameroom (Windows) and WebGL. Preliminary documentation is available [here](https://docs.google.com/document/d/1FaYwKvdnMHxkh47YVuXx9dMbc6ZtLX53mtgyAIn6WfU/)
+- Apple platforms - Added experimental support for setting "simulatesAskToBuyInSandbox". Please let us know how this impacts ask-to-buy testability for you.
+```csharp
+extensions.GetExtension<IAppleExtensions>().simulateAskToBuy = true;
+```
+- Apple platforms - Added support for setting "applicationUsername" field which will be added to every payment request to help the store detect fraud.
+```csharp
+// Set the applicationUsername to help Apple detect fraud
+extensions.GetExtension<IAppleExtensions>().SetApplicationUsername(hashedUsername);
+```
+
+### Requirement
+- GooglePlay - "Android SDK API Level 24 (7.0)" (or higher) must now be installed. To upgrade, either perform the one-time step of setting the project's "Android Player Settings > Other Settings > Minimum API Level" to 24, building an APK, then resetting to the project's previous value. Or, run the `android` Android SDK Manager tool manually and install "Android 7.0 (API 24)". Addresses build error messages: "Unable to merge android manifests." and "Main manifest has \<uses-sdk android:targetSdkVersion='23'> but library uses targetSdkVersion='24'". Note the Minimum API Level support is unchanged; merely the installation of API 24 SDK is now required for Daydream VR.
+
+### Fixed
+- GooglePlay Daydream VR - Uses decoration-free Activity for purchasing
+- GooglePlay - Avoids sporadic price serialization exception
+- Apple App Stores - Improve handling of the situation where an attempt to finish a transaction fails (if the user is signed out of the store and cancels the sign in dialog, for example). The Apple store implementation will now remember that the transaction should be finished, and attempt to call finishTransaction again if the transaction is retrieved from the queue again. When this happens, the store will call OnPurchaseFailed with the reason "DuplicateTransaction"—this prevents a situation where a call to InitiatePurchase could result in no call to ProcessPurchase or OnPurchaseFailed.
+- Amazon - Fix for a crash when loading product metadata for subscription parent products
+
+## [1.10.1] - 2017-03-29
+### Fixed
+- GooglePlay - Suspending and resuming from app-icon while purchase dialog displayed no longer generates both OnPurchaseFailed then ProcessPurchase messages, only whichever callback is correct.
+- Remove cloud JSON exporter that was erroneously showing in the IAP Catalog export list
+- Fixed a bug when parsing localized prices when the device's localization does not match the number format rules for the currency
+- Resolved DLL name conflict by renaming Assets/Plugins/UnityPurchasing/Bin/Common.dll to Purchasing.Common.dll
+- Installer - Suppressed multiple redundant dialogs
+
 ## [1.10.0] - 2017-01-23
 ### Added
 - Samsung Galaxy Apps - In-App Purchase SDK v4. Simplifies flow for first-time payment users. See [Samsung Developer IAP Documentation](http://developer.samsung.com/iap) for more.
